@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:24:06 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/10 21:08:43 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/11 17:56:28 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@
 // timestamp_in_ms X is sleeping
 // timestamp_in_ms X is thinking
 // timestamp_in_ms X died
-
-
-int x = 2;
+int x = 0;
+pthread_mutex_t mutex;
 void time_to_eat()
 {
     printf("Eating\n");
@@ -39,29 +38,45 @@ void time_to_think()
 {
     printf("Thinking\n");
 }
-void* routine()
+void* routine(void *arg)
 {
-    time_to_think();
-    time_to_eat();
-    time_to_sleep();
+	for (int i= 0; i < 1000000; i++)
+	{
+		pthread_mutex_lock(&mutex);
+		x++;
+		pthread_mutex_unlock(&mutex);
+	}
+    // time_to_think();
+    // time_to_eat();
+    // time_to_sleep();
 }
 
 
-int main(int argc, char* argv[]) 
+int main(int argc, char *argv[]) 
 {
-    pthread_t t1;
-    t1 = NULL;
-    if (pthread_create(&t1, NULL, &routine, NULL))
-    {
-        return 1;
-    }
-    // if (pthread_join(t1, NULL))
-    // {
-    //     return 3;
-    // }
-    // if (pthread_join(t2, NULL))
-    // {
-    //     return 3;
-    // }
+    pthread_t th_onephilo[4];
+	int i;
+	pthread_mutex_init(&mutex, NULL);
+    for(i = 0; i < 8; i++)
+	{
+		if (pthread_create(th_onephilo + i, NULL, &routine, NULL) != 0)
+		{
+			perror("Faild to creat thread");
+			return 1;
+		}
+		printf("THead %d has started\n", i);
+	}
+	for(i = 0; i < 8; i++)
+	{
+		if (pthread_join(th_onephilo[i], NULL) != 0)
+		{  
+			return 2;
+		}
+		printf("Thread %d has finished\n", i);
+
+	}
+	pthread_mutex_destroy(&mutex);
+	printf("number of x : %d\n", x);
+
     return 0;
 }
