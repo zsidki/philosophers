@@ -12,17 +12,17 @@
 
 .PHONY: all fclean clean re
 CC = gcc
-flags = -Wall -Wextra -Werror -lpthread
+flags = -g -fsanitize=address #-Wall -Wextra -Werror -lpthread
 SRCS = main.c
 NAME  = philo
 
 all : $(NAME)
 
-$(NAME):
-	@$(CC) $(flags) $(SRCS) -o $(NAME)
+$(NAME): ${SRCS}
+	@$(CC) $(flags) $(SRCS) -lpthread -o $(NAME)
 
 clean:
-	@rm -rf client server
+	@rm -rf $(NAME)
 
 fclean: clean
 
