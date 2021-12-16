@@ -6,17 +6,11 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:24:06 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/11 17:56:28 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/16 19:45:24 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// timestamp_in_ms X has taken a fork
-// timestamp_in_ms X is eating
-// timestamp_in_ms X is sleeping
-// timestamp_in_ms X is thinking
-// timestamp_in_ms X died
 
 struct args {
 	int nb_of_philo;
@@ -72,7 +66,8 @@ void p_think(t_main * i)
 void* routine(void *arg)
 {
 	t_main *main = (t_main *)arg;
-	while (1) {
+	while (1)
+	{
 		p_think(main);
 		pthread_mutex_lock(&main->mutex[main->id]);
 	    printf("%ld %d has taken a fork\n", get_time_stamp() / 1000, main->id + 1);
@@ -87,10 +82,13 @@ void* routine(void *arg)
 			break;
 		p_sleep(main);
 	}
+	return 0;
 }
 
-void init_args(struct args * args, int argc, char *argv[]) {
-	if (argc != 5 && argc != 6) {
+void init_args(struct args * args, int argc, char *argv[])
+{
+	if (argc != 5 && argc != 6)
+	{
 		write(2, "Wrong number of arguments!\n", 27);
 		exit(EXIT_FAILURE);
 	}
@@ -99,16 +97,18 @@ void init_args(struct args * args, int argc, char *argv[]) {
 	args->time_to_eat = atoi(argv[3]);
 	args->time_to_sleep = atoi(argv[4]);
 	args->nb_must_eat= -1;
-	if (argc == 6) {
+	if (argc == 6)
+	{
 		args->nb_must_eat= atoi(argv[5]);
 	}
-	if ((args->nb_must_eat < 0 && argc == 6) || args->nb_of_philo < 0 || args->time_to_die < 0 || args->time_to_eat < 0 || args->time_to_sleep < 0) {
+	if ((args->nb_must_eat < 0 && argc == 6) || args->nb_of_philo < 0 || args->time_to_die < 0 || args->time_to_eat < 0 || args->time_to_sleep < 0) 
+	{
 		write(2, "Invalid argument!\n", 18);
 		exit(EXIT_FAILURE);
 	}
 }
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
 	int i = 0;
 	struct args args;
@@ -123,7 +123,8 @@ int main(int argc, char *argv[])
 	g = malloc(sizeof(t_main) * args.nb_of_philo);
 
 	pthread_mutex_init(&m_died, NULL);
-	while (i < args.nb_of_philo) {
+	while (i < args.nb_of_philo)
+	{
 		pthread_mutex_init(mutex + i, NULL);
 		i++;
 	}
@@ -137,13 +138,11 @@ int main(int argc, char *argv[])
 		g[i].m_died = &m_died;
 		g[i].last_time_eat = t;
 		if (pthread_create(th_onephilo + i, NULL, &routine, &g[i]) != 0)
-		{
-			perror("Faild to creat thread");
-			return 1;
-		}
+			write(2, "Faild to creat thread\n", 22);
 		usleep(100);
 	}
 	int finish;
+	finish = 0;
 	while (finish != args.nb_of_philo)
 	{
 		finish = 0;
@@ -152,12 +151,16 @@ int main(int argc, char *argv[])
 			long t = get_time_stamp() / 1000;
 			if (g[i].nb_eat == args.nb_must_eat)
 				finish++;
-			else if (t - g[i].last_time_eat >= args.time_to_die) {
+			else if (t - g[i].last_time_eat >= args.time_to_die)
+			{
 				pthread_mutex_lock(g[i].m_died);
-				if (t - g[i].last_time_eat >= args.time_to_die) {
+				if (t - g[i].last_time_eat >= args.time_to_die)
+				{
     				printf("%ld %d Died\n", t, g[i].id + 1);
 					exit(1);
-				} else {
+				} 
+				else
+				{
 					pthread_mutex_unlock(g[i].m_died);
 				}
 			}

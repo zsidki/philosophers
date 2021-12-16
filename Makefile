@@ -6,13 +6,13 @@
 #    By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 20:57:42 by zsidki            #+#    #+#              #
-#    Updated: 2021/12/10 21:06:41 by zsidki           ###   ########.fr        #
+#    Updated: 2021/12/16 10:51:44 by zsidki           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all fclean clean re
 CC = gcc
-flags = -g -fsanitize=address #-Wall -Wextra -Werror -lpthread
+flags = -Wall -Wextra -Werror #-g -fsanitize=address
 SRCS = main.c
 NAME  = philo
 
