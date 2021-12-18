@@ -6,7 +6,7 @@
 #    By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 20:57:42 by zsidki            #+#    #+#              #
-#    Updated: 2021/12/16 10:51:44 by zsidki           ###   ########.fr        #
+#    Updated: 2021/12/18 18:23:35 by zsidki           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 CC = gcc
 flags = -Wall -Wextra -Werror #-g -fsanitize=address
 SRCS = main.c
-NAME  = philo
+NAME  = philo_one
 
 all : $(NAME)
 
