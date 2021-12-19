@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:23:30 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/19 15:54:24 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/19 18:57:23 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void		p_takefork(t_main *i);
 void		*routine(void *arg);
 void		init_args(struct args *args, int argc, char *argv[]);
 int			main(int argc, char *argv[]);
+int			check_arg(char *str);
 
 #endif

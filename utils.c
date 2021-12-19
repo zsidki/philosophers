@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:32:22 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/19 15:44:48 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/19 19:18:35 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,12 @@ void	ft_usleep(useconds_t usec)
 	while (get_time_stamp() < (time + usec));
 }
 
-void	init_args(struct args *args, int argc, char *argv[])
+void	init_args(struct args *args, int argc, char **argv)
 {
+
 	if (argc != 5 && argc != 6)
 	{
 		write(2, "Wrong number of arguments!\n", 27);
-		exit(EXIT_FAILURE);
-	}
-	if (!check_arg(argv[argc - 1]))
-	{
-		write(2, "Wrong number offf arguments!\n", 27);
 		exit(EXIT_FAILURE);
 	}
 	args->nb_of_philo = ft_atoi(argv[1]);
@@ -70,4 +66,15 @@ void	init_args(struct args *args, int argc, char *argv[])
 		write(2, "Invalid argument!\n", 18);
 		exit(EXIT_FAILURE);
 	}
+	
+	while (argc > 1)
+	{
+		if (!check_arg(argv[argc - 1]))
+		{
+		write(2, "Invalid argumentt!\n", 19);
+		exit(EXIT_FAILURE);
+		}
+	argc--;
+	}
+	
 }

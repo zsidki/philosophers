@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 22:06:47 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/18 18:41:01 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/19 19:21:02 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,16 @@ int	ft_atoi(const char *str)
 	}
 	return (rsl * sgn);
 }
+
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 17:24:06 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/19 19:26:54 by zsidki           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 int	main(int argc, char *argv[])
@@ -18,19 +6,19 @@ int	main(int argc, char *argv[])
 	struct args args;
 	pthread_t		*th_onephilo;
 	pthread_mutex_t	m_died;
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*fork;
 	t_main			*g;
 
 	init_args(&args, argc, argv);
 	th_onephilo = malloc(sizeof(pthread_t) * args.nb_of_philo);
-	mutex = malloc(sizeof(pthread_mutex_t) * args.nb_of_philo);
+	fork = malloc(sizeof(pthread_mutex_t) * args.nb_of_philo);
 	g = malloc(sizeof(t_main) * args.nb_of_philo);
 
 	pthread_mutex_init(&m_died, NULL);
 	
 	while (i < args.nb_of_philo)
 	{
-		pthread_mutex_init(mutex + i, NULL);
+		pthread_mutex_init(fork + i, NULL);
 		i++;
 	}
 	long t = get_time_stamp() / 1000;
@@ -39,7 +27,7 @@ int	main(int argc, char *argv[])
 	{
 		g[i].id = i;
 		g[i].args = &args;
-		g[i].mutex = mutex;
+		g[i].mutex = fork;
 		g[i].nb_eat = 0;
 		g[i].m_died = &m_died;
 		g[i].last_time_eat = t;
@@ -68,15 +56,13 @@ int	main(int argc, char *argv[])
 					exit(1);
 				} 
 				else
-				{
 					pthread_mutex_unlock(g[i].m_died);
-				}
 			}
 			i++;
 		}
 	}
 	free(th_onephilo);
-	free(mutex);
+	free(fork);
 	free(g);
 	return 0;
 }
