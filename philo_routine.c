@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 15:28:24 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/19 15:34:21 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/20 17:24:35 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ void	p_takefork(t_main *i)
 
 void	*routine(void *arg)
 {
-	t_main	*main = (t_main *)arg;
+	t_main	*main;
 
+	main = (t_main *)arg;
 	while (1)
 	{
 		p_think(main);

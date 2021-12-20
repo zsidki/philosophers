@@ -6,7 +6,7 @@
 /*   By: zsidki <zsidki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:32:22 by zsidki            #+#    #+#             */
-/*   Updated: 2021/12/19 19:18:35 by zsidki           ###   ########.fr       */
+/*   Updated: 2021/12/20 17:23:13 by zsidki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,22 @@ void	ft_usleep(useconds_t usec)
 
 	time = get_time_stamp();
 	usleep(usec - 10 * 1000);
-	while (get_time_stamp() < (time + usec));
+	while (get_time_stamp() < (time + usec))
+		;
 }
 
-void	init_args(struct args *args, int argc, char **argv)
+void	check_argc(int argc)
 {
-
 	if (argc != 5 && argc != 6)
 	{
 		write(2, "Wrong number of arguments!\n", 27);
 		exit(EXIT_FAILURE);
 	}
+}
+
+int	init_args(t_args *args, int argc, char **argv)
+{
+	check_argc(argc);
 	args->nb_of_philo = ft_atoi(argv[1]);
 	args->time_to_die = ft_atoi(argv[2]);
 	args->time_to_eat = ft_atoi(argv[3]);
@@ -61,20 +66,14 @@ void	init_args(struct args *args, int argc, char **argv)
 		args->nb_must_eat = ft_atoi(argv[5]);
 	}
 	if ((args->nb_must_eat < 0 && argc == 6) || args->nb_of_philo < 0
-		|| args->time_to_die < 0 || args -> time_to_eat < 0 || args->time_to_sleep < 0)
-	{
-		write(2, "Invalid argument!\n", 18);
-		exit(EXIT_FAILURE);
-	}
-	
+		|| args->time_to_die < 0 || args -> time_to_eat < 0
+		|| args->time_to_sleep < 0)
+		return (write(2, "Invalid argument!\n", 18));
 	while (argc > 1)
 	{
 		if (!check_arg(argv[argc - 1]))
-		{
-		write(2, "Invalid argumentt!\n", 19);
-		exit(EXIT_FAILURE);
-		}
-	argc--;
+			return (write(2, "Invalid argumentt!\n", 19));
+		argc--;
 	}
-	
+	return (0);
 }
